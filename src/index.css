@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  border: 2px solid #888;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #4caf50; /* Green background when checked */
+  border-color: #4caf50;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓"; /* Checkmark */
+  color: white;
+  font-size: 17px;
+  position: absolute;
+  left: 4px;
+  top: -6px;
+  font-weight: bold;
+}
+
+input[type="checkbox"]:hover {
+  border-color: #555; /* Change border color on hover */
+}
+
+label {
+  margin-left: 8px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .main-btn {
+    display: none; /* Hide buttons */
+  }
+
+  .icon {
+    display: block; /* Show the icon */
+    font-size: 24px; /* Adjust the icon size as needed */
+  }
+}
