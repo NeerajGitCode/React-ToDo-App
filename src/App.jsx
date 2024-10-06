@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Modal from "./components/Modal";
 import { v4 as uuidv4 } from "uuid";
@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import { TbFlag3 } from "react-icons/tb";
 import Slider from "./components/Slider";
+import { IoIosList } from "react-icons/io";
 function App() {
   const [Todo, setTodo] = useState("");
   const [Todos, setTodos] = useState([]);
@@ -17,23 +18,37 @@ function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [sliderContent, setSliderContent] = useState("");
   const [sliderId, setSliderId] = useState("");
-  const firstButtonRef = useRef(null);
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+  }, []);
+  // Prevent default back behavior
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isSliderOpen) {
+        setIsSliderOpen(false); // Close the slider when back button is pressed
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState); // Cleanup listener on unmount
+    };
+  }, [isSliderOpen]);
+
   const openSlider = (text, id) => {
     setSliderContent(text);
     setSliderId(id);
     setIsSliderOpen(true);
+    window.history.pushState(null, "", window.location.href);
+  };
+  const handleSaveSlider = (id, newContent) => {
+    setTodos(
+      Todos.map((todo) =>
+        todo.id === id ? { ...todo, text: newContent } : todo
+      )
+    ); // Close the slider after saving
   };
 
-  const handleSaveSlider = () => {};
-
-  const handleEditSlider = () => {
-    if (firstButtonRef.current) {
-      firstButtonRef.current.click(); // Trigger click event
-    }
-  };
-
-  // const handleDeleteSlider = () => {};
-  const handleCancelSlider = () => {};
   const handleEdit = (id, text) => {
     setEditingId(id);
     setEditText(text);
@@ -142,7 +157,7 @@ function App() {
             value={Todo}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            className="border border-gray-800 focus:border-black px-2 w-[70%] max-md:w-full py-2 rounded-full shadow-lg transition duration-400 ease-in-out"
+            className=" placeholder:italic placeholder:text-slate-400 border border-gray-800 focus:border-black px-2 w-[70%] max-md:w-full py-2 rounded-full shadow-lg transition duration-400 ease-in-out"
           />
           <button
             onClick={handleAdd}
@@ -158,7 +173,7 @@ function App() {
             id="showCompleted"
             checked={showCompleted}
             onChange={() => setShowCompleted((prev) => !prev)}
-            className="mr-2"
+            className="mr-2 placeholder:italic placeholder:text-slate-400"
           />
           <label htmlFor="showCompleted" className="font-semibold">
             Show Completed Todos
@@ -187,6 +202,7 @@ function App() {
                   type="checkbox"
                   name={item.id}
                   id={item.id}
+                  className="placeholder:italic placeholder:text-slate-400"
                 />
 
                 {editingId === item.id ? (
@@ -195,7 +211,7 @@ function App() {
                     value={editText}
                     onChange={handleEditChange}
                     onKeyDown={handleKeyDown2}
-                    className="border border-gray-800 px-2 rounded-md"
+                    className="border border-gray-800 px-2 rounded-md placeholder:italic placeholder:text-slate-400"
                   />
                 ) : (
                   <span
@@ -205,7 +221,7 @@ function App() {
                     }} // Prevent checkbox toggle
                     className={`${
                       item.isCompleted ? "line-through" : ""
-                    } overflow-hidden text-ellipsis line-clamp-1 max-md:text-sm max-md:min-w-[80%] absolute top-2 left-11 font-[650]`}
+                    } overflow-hidden text-ellipsis line-clamp-1 max-md:text-sm max-md:max-w-[75%] absolute  top-2 left-11 font-[650]`}
                   >
                     {item.text}
                   </span>
@@ -232,7 +248,6 @@ function App() {
                   <>
                     <button
                       onClick={() => handleEdit(item.id, item.text)}
-                      ref={firstButtonRef}
                       className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105 main-btn"
                     >
                       <FaEdit />
@@ -265,11 +280,9 @@ function App() {
         content={sliderContent}
         id={sliderId} // Pass the content to the slider
         onSave={handleSaveSlider} // Save function
-        onEdit={handleEditSlider} // Edit function
         onDelete={handleDelete2} // Delete function
         onConfirm2={onConfirm2}
         onClearContent={clearSliderContent}
-        onCancel={handleCancelSlider}
       />
     </>
   );
