@@ -178,7 +178,7 @@ function App() {
           {displayedTodos.map((item) => (
             <div
               key={item.id}
-              className="relative todo flex items-center justify-between px-3 py-1 my-1 bg-white rounded-lg max-h-[76px] w-[100%]"
+              className="relative todo flex items-center justify-between px-3 py-1 my-1 bg-white rounded-lg max-h-[76px] min-h-[76px] w-[100%]"
             >
               <div className="flex items-center gap-5 font-semibold text-xl">
                 <input
@@ -205,7 +205,7 @@ function App() {
                     }} // Prevent checkbox toggle
                     className={`${
                       item.isCompleted ? "line-through" : ""
-                    } overflow-hidden text-ellipsis line-clamp-1 max-md:text-sm max-md:min-w-[90%] max-md:my-5 font-[650]`}
+                    } overflow-hidden text-ellipsis line-clamp-1 max-md:text-sm max-md:min-w-[80%] absolute top-2 left-11 font-[650]`}
                   >
                     {item.text}
                   </span>
@@ -246,7 +246,7 @@ function App() {
                   </>
                 )}
               </div>
-              <div className="text-gray-500 text-[13px] font-bold absolute  bottom-0 p-[4px] ml-9 w-[200px]">
+              <div className="text-gray-500 text-[13px] font-bold absolute  bottom-1 left-11  w-[200px]">
                 {item.date}
               </div>
             </div>
