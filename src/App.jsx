@@ -134,7 +134,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className=" min-h-[94.7vh] xl:w-[1200px] m-auto py-10 max-lg:px-2">
+      <div className=" min-h-[94.7vh] xl:w-[1200px] m-auto py-10 max-lg:px-2 w-[100vw] ">
         <div className=" xl:w-[1200px] flex items-center justify-between max-md:flex-col">
           <input
             type="text"
@@ -178,7 +178,7 @@ function App() {
           {displayedTodos.map((item) => (
             <div
               key={item.id}
-              className="relative todo flex items-center justify-between px-3 py-1 my-1 bg-white rounded-lg max-h-[76px]"
+              className="relative todo flex items-center justify-between px-3 py-1 my-1 bg-white rounded-lg max-h-[76px] w-[100%]"
             >
               <div className="flex items-center gap-5 font-semibold text-xl">
                 <input
@@ -246,7 +246,7 @@ function App() {
                   </>
                 )}
               </div>
-              <div className="text-gray-500 text-[13px] font-bold absolute w-full bottom-0 p-[4px] ml-9">
+              <div className="text-gray-500 text-[13px] font-bold absolute  bottom-0 p-[4px] ml-9 w-[200px]">
                 {item.date}
               </div>
             </div>
